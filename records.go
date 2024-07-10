@@ -21,6 +21,17 @@ import (
 	"net/http"
 )
 
+func (c *Client) UpdateRecord(document DocumentID, table TableID, r io.Reader) (json.RawMessage, error) {
+	path := fmt.Sprintf("/api/docs/%s/tables/%s/records", document, table)
+	request := GristRequest{
+		Path:   path,
+		Method: http.MethodPatch,
+		Data:   r,
+	}
+	return c.httpRequest(request)
+}
+
+
 func (c *Client) GetRecordsWithOptions(opts ...GristRequestOpt) (json.RawMessage, error) {
 	var r GristRequest
 
